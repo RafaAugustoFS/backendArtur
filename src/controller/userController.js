@@ -1,12 +1,18 @@
+const {json } = require ('express')
+const User = require('../models/user')
+
 const UserController = {
     create: async(req, res) => {
         try {
-            const{ nome, idade , senha, email } = req.body;
+            const{ nome, email, password } = req.body;
 
-            console.log({ nome, idade, senha, email });
+            console.log(nome, email, password)
+
+            const usuarioCriado = await User.create({ nome, email, password })
             
             return res.status(200).json({
-                msg: "User criado com êxito"
+                msg: "User criado com êxito",
+                user: usuarioCriado
             })
         } catch (error) {
             console.error(error);
@@ -32,9 +38,11 @@ const UserController = {
     },
     getAll: async(req, res) => {
         try {
+            const usuarios = await User.findAll();
+
             return res.status(200).json({
                 msg: " Users encontrados! ",
-                usuarios: {}
+                usuarios: usuarios
             })
         } catch (error) {
             console.error(error);
@@ -43,9 +51,18 @@ const UserController = {
     },
     getOne: async(req, res) => {
         try {
+            const { id } = req.params;
+
+            const usuarioEncontrado = await User.findByPk(id)
+
+            if(usuarioEncontrado == null ){
+                return res.status(404).json({
+                    msg: "Erro"
+                })
+            }
             return res.status(200).json({
                 msg: "User encontrado com sucesso!",
-                usuario: {}
+                usuario: usuarioEncontrado
             })
         } catch (error) {
             console.error(error);

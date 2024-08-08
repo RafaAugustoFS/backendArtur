@@ -1,5 +1,7 @@
 const express = require('express');
-const router = require("./router/router")
+const router = require("./router/router");
+const sequelize = require('./config/config');
+const User = require("./models/user")
 
 const app = express();
 //API modelo JSON
@@ -14,8 +16,18 @@ app.get('/healthcheck', (req,res) =>{
     })
 })
 
-app.listen(8080, () => {
-    console.log("#####");
-    console.log("Funcionou");
-    console.log("#####");
+sequelize.authenticate()
+.then(async () =>{
+    console.log("Conexão estabelecida com sucesso!");
+    await sequelize.sync({ }); //Sincroniza o código com a tabela
+})
+.then(() =>{
+    app.listen(8080, () =>{
+        console.log("#####");
+        console.log("Rodando na porta 8080");
+        console.log("#####");
+    })
+})
+.catch(() =>{
+    console.error( "Erro ao se conectar com o DataBase!");
 })
