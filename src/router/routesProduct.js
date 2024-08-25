@@ -1,5 +1,7 @@
+const { Router } = require("express");
 const ProductController = require("../controller/productController")
 const { validateProductId, validateProduct } = require("../middlewares/validadeProduct")
+const router = Router();
 
 /*Produto */
 router.post('/product', validateProduct, (req, res) =>{
@@ -21,3 +23,5 @@ router.put('/product/:id', validateProductId, validateProduct, (req, res) =>{
 router.get('/product/:id', validateProductId, (req, res) =>{
     ProductController.getOne(req, res)
 })
+
+module.exports = router;

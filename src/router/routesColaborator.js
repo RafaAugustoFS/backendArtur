@@ -1,6 +1,7 @@
+const { Router } = require("express");
 const ColaboratorController = require("../controller/colaboratorController")
 const { validateColaborator, validateColaboratorId } = require("../middlewares/validateColaborator")
-
+const router = Router();
 
 /*Colaboradores */
 router.post('/colaborator/', validateColaborator, (req, res) =>{
@@ -22,3 +23,5 @@ router.put('/colaborator/:id', validateColaboratorId, validateColaborator, (req,
 router.get('/colaborator/:id', validateColaboratorId, (req, res) =>{
     ColaboratorController.getOne(req, res)
 })
+
+module.exports = router;
