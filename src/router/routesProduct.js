@@ -4,23 +4,23 @@ const { validateProductId, validateProduct } = require("../middlewares/validadeP
 const router = Router();
 
 /*Produto */
-router.post('/product', validateProduct, (req, res) =>{
+router.post('/', validateProduct, (req, res) =>{
     ProductController.create(req, res)
 })
 
-router.get('/product', (req, res) =>{
+router.get('/', (req, res) =>{
     ProductController.getAll(req, res)
 })
 
-router.delete('/product/:id', validateProductId, (req, res) =>{
+router.delete('/:id', validateProductId, (req, res) =>{
     ProductController.delete(req, res)
 })
 
-router.put('/product/:id', validateProductId, validateProduct, (req, res) =>{
+router.put('/:id', validateProductId, validateProduct, (req, res) =>{
     ProductController.update(req, res)
 })
 
-router.get('/product/:id', validateProductId, (req, res) =>{
+router.get('/:id', validateProductId, (req, res) =>{
     ProductController.getOne(req, res)
 })
 

@@ -1,8 +1,8 @@
 const validateColaborator = (req, res, next) =>{
     const {nome, cnpj, mercadoria} = req.body;
-    if(!nome || !cnpj || mercadoria){
+    if(!nome || !cnpj || !mercadoria){
         return res.status(400).json({
-            msg: "campos invalidos, revise irmão!!"
+            msg: "campos invalidos, revise !!"
         })
     }
     return next()

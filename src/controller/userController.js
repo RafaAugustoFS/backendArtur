@@ -30,7 +30,7 @@ const UserController = {
 
             const userUpdate = await User.findByPk(id);
 
-            if(userUpdate = null){
+            if(userUpdate === null){
                 return res.status(404).json({
                     msg: "usuario não encontrado"
                 })

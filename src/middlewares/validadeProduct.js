@@ -7,7 +7,7 @@ const validateProduct = (req, res, next) => {
     const {nome, preco, quantidade} = req.body;
     if(!nome || !preco || !quantidade){
         return res.status(400).json({
-            msg: "campos invalidos, revise irmão!!"
+            msg: "campos invalidos, revise!!"
         });
     }
     //avança

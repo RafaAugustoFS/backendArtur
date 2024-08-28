@@ -31,7 +31,7 @@ const ProductController = {
             
             const productUpdate = await Product.findByPk(id);
 
-            if(productUpdate = null){
+            if(productUpdate === null){
                 return res.status(404).json({
                     msg: "Produto não encontrado"
                 })

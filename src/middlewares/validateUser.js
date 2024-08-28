@@ -7,7 +7,7 @@ next = next function
     const {nome, email, senha} = req.body;
     if(!nome || !email || !senha){
         return res.status(400).json({
-            msg: "campos invalidos, revise irmão!!"
+            msg: "campos invalidos, revise!!"
         });
     }
     //avança

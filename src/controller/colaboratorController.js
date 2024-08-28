@@ -28,7 +28,7 @@ const ColaboratorController = {
 
         const colaboratorUpdate = await Colaborator.findByPk(id);
 
-        if(colaboratorUpdate = null){
+        if(colaboratorUpdate === null){
             return res.status(404).json({
                 msg: "Colaborador não encontrado"
             })
@@ -72,7 +72,7 @@ const ColaboratorController = {
 
             if(colaboradorEncontrado == null ){
                 return res.status(404).json({
-                    msg: "Erro"
+                    msg: "Colaborador não encontrado!"
                 })
             }
             return res.status(200).json({
@@ -81,7 +81,7 @@ const ColaboratorController = {
             })
         } catch (error) {
             console.error(error);
-            return res.status(500).json({msg: "Colaborador não encontrado, acione o suporte!"})
+            return res.status(500).json({msg: "Acione o suporte!"})
         }
     },
     delete: async(req, res) =>{
