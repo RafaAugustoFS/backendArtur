@@ -1,14 +1,48 @@
-const {json } = require ('express')
-const User = require('../models/user')
+const bcrypt = require('bcryptjs');
+const jwt = require("jsonwebtoken");
+const User = require('../models/user');
 
 const UserController = {
+
+    login: async (req, res) =>{
+        try {
+            const {email,password} = req.body;
+
+            const user = await User.findOne({where : { email }});
+
+            if(!user){
+                return res.status(400).json({
+                    msg: "Email ou senha incorretos!!"
+                })
+            }
+
+            const isValida = await bcrypt.compare(password, user.password);
+             if(!isValida){
+                return res.status(400).json({
+                    msg: "Email ou senha incorretos!!"
+                })
+             }   
+
+             const token = jwt.sign({ email: user.email, nome: user.nome }, process.env.SECRET, {expiresIn: '1h'});
+
+             return res.status(200).json({
+                msg:"Login realizado!",
+                token
+             })
+        } catch (error) {
+            console.error(error);
+            return res.status(500).json({msg: "Acione o suporte!"});
+        }
+    },
     create: async(req, res) => {
         try {
             const{ nome, email, password } = req.body;
 
-            console.log(nome, email, password)
+            const hashPassword = await bcrypt.hash(password, 10);
 
-            const usuarioCriado = await User.create({ nome, email, password })
+            console.log(nome, email, "senha:", hashPassword)
+
+            const usuarioCriado = await User.create({ nome, email, password: hashPassword })
             
             return res.status(200).json({
                 msg: "User criado com êxito",
@@ -22,11 +56,11 @@ const UserController = {
     update: async(req, res) => {
         try {
             const { id } = req.params;
-            const{ nome, senha, email } = req.body;
+            const{ nome,email,password} = req.body;
 
             console.log("Atualizando o objeto");
             console.log(id);
-            console.log({ nome,senha, email });
+            console.log({ nome, email,password });
 
             const userUpdate = await User.findByPk(id);
 
@@ -36,7 +70,7 @@ const UserController = {
                 })
             }
             const updated = await userUpdate.update({
-                nome, senha, email
+                nome, password, email
             })
 
             if(updated) {
